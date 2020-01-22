@@ -1,9 +1,34 @@
+// Server.js - This file is the initial starting point for the Node/Express server.
+// *********************************************************************************
+
+// Dependencies
+// =============================================================
+
 var express = require("express");
 var db = require("./models");
 
-var PORT  = process.env.PORT|| 3000;
+
+// Sets up the Express App
+// =============================================================
+var PORT  = process.env.PORT|| 8080;
 var app = express();
 
+// Sets up the Express app to handle data parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Static directory
+app.use(express.static("./public"));
+
+
+// Routes
+// =============================================================
+require("./controllers/burgers_controller.js")(app);
+
+
+
+// Starts the server to begin listening
+// =============================================================
 db.sequelize.sync().then(function() {
 
     app.listen(PORT, function() {
@@ -13,4 +38,4 @@ db.sequelize.sync().then(function() {
 
 });
 
-app.use(express.static("./public"));
+

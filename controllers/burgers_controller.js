@@ -35,7 +35,7 @@ module.exports = function(app) {
 
     db.Burger.create({
       burger_name: req.body.name,
-      eaten: req.body.body,  ###################BOOLEAN
+      // eaten: req.body.body,  ###################BOOLEAN
       
     }).then(function(results) {
       // `results` here would be the newly created burger
