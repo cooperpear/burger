@@ -11,11 +11,11 @@
 $("#burger-submit").on("click", function (event) {
     event.preventDefault();
 
-    // Make a newChirp object
+    // Make a newBurger object
     var newBurger = {
 
-        burger_name: $("#burger-input").val().trim(),,
-        // devoured: default value === FALSE
+        burger_name: $("#burger-input").val().trim(),
+        devoured: false
     };
 
     console.log(newBurger);
@@ -23,19 +23,35 @@ $("#burger-submit").on("click", function (event) {
     // Send an AJAX POST-request with jQuery
     $.post("/api/new", newBurger)
         // On success, run the following code
-        .then(function () {
-
+        .then(function (res) {
+            console.log(res);
             var row = $("<div>");
-            row.addClass("burger");
+            row.addClass("burger-box");
 
             row.append("<p>" + newBurger.burger_name + "</p>");
-
+            row.append(`<button class= "devour" data-id=${res.id}>Devour</button>`);
 
             $("#burger-area").prepend(row);
 
             // Empty each input box by replacing the value with an empty string
-            $("#burger").val("");
-            $("#burger-box").val("");
+
+            $("#burger-input").val("");
         });
+
+});
+
+$("#burger-area").on("click", ".devour", function (event) {
+    event.preventDefault();
+    var id = $(this).attr("data-id");
+$.ajax({
+    url:"/api/updated/" + id,
+    method: "PUT",
+    data: {devoured:true} })
+        // On success, run the following code
+        .then(function (res) {
+            console.log(res);
+            window.location.reload();
+        });
+
 
 });
