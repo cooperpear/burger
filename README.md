@@ -1,4 +1,4 @@
-# burger
+# Burger
 The burger app
 
 
